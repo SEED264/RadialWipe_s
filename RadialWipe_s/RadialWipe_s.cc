@@ -2,12 +2,8 @@
 #include "CustomType.h"
 #include "UtilFunc.h"
 #include <omp.h>
-#include <chrono>
-using namespace std::chrono;
 
 int RadialWipe_Core(lua_State *L) {
-	system_clock::time_point start, end;
-	start = system_clock::now();
 	float sAngle = lua_tonumber(L, 1);
 	float wAngle = lua_tonumber(L, 2);
 	// 上の二つまでが必須の引数 後はオプション
@@ -94,9 +90,6 @@ int RadialWipe_Core(lua_State *L) {
 	lua_getfield(L, -1, "putpixeldata");
 	lua_pushlightuserdata(L, pixels);
 	lua_call(L, 1, 0);
-	end = system_clock::now();
-	double duration = duration_cast<nanoseconds>(end - start).count() / 1000000.0;
-	OutputDebugString(("Total time : "+std::to_string(duration)).c_str());
 	return 0;
 }
 
