@@ -3,7 +3,7 @@
 --track2:X,-3600.0,3600.0,0.0,0.1
 --track3:Y,-3600.0,3600.0,0.0,0.1
 --check0:Fan Mode,0
---dialog:í«â¡ç¿ïW,pos={0,0}; DLL info/chk, info=0;
+--dialog:í«â¡ç¿ïW,pos={0,0};
 require("RadialWipe_s")
 obj.setanchor("pos",1)
 RadialWipe_s.RadialWipe(obj.track0, obj.track1, obj.track2+pos[1], obj.track3+pos[2], obj.check0)
