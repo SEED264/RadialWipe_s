@@ -25,7 +25,7 @@ RadialWipe_s.RadialWipe(sAngle, wAngle, xOffset, yOffset, fan)
 ```lua
 RadialWipe(sAngle, wAngle, xOffset=0, yOffset=0, fan=false)
 ```
-PixelSorterのメインの関数です。これを呼び出すとPixel Sortのエフェクトがかかった状態になります
+RadialWipeのメインの関数です。これを呼び出すとRadialWipeエフェクトがかかった状態になります
 #### 引数
 必須
 * `sAngle : float`  
