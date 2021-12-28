@@ -10,7 +10,7 @@ inline float toRadian(float deg){
 }
 
 inline float clamp(float v, float mi, float ma) {
-	return min(max(v, mi), ma);
+	return std::min(std::max(v, mi), ma);
 }
 
 void getpixeldata(lua_State *L, Pixel_RGBA **out_Pixels, Size_2D *out_Size){
@@ -31,14 +31,14 @@ void calcWipeAngles(float startAngle, float wipeAngle, bool fan, float *out_Star
 	if (fan) {
 		startAngle -= wipeAngle / 2;
 	}
-	startAngle = std::fmodf(startAngle, 360);
-	if (std::fmodf(std::abs(wipeAngle), 720)<360) {
+	startAngle = std::fmod(startAngle, 360);
+	if (std::fmod(std::abs(wipeAngle), 720)<360) {
 		a1 = startAngle;
-		a2 = std::fmodf(wipeAngle, 360) + startAngle;
+		a2 = std::fmod(wipeAngle, 360) + startAngle;
 	}
 	else
 	{
-		a1 = std::fmodf(wipeAngle, 360) + startAngle;
+		a1 = std::fmod(wipeAngle, 360) + startAngle;
 		a2 = startAngle;
 	}
 	*out_StartAngle = (wipeAngle >= 0) ? a1 : a2;
