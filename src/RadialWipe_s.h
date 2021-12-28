@@ -10,6 +10,7 @@
 #include "CustomType.h"
 
 int RadialWipe(lua_State *L);
+int RadialBlind(lua_State *L);
 
 void RadialWipeCore(Pixel_RGBA *pixels, Size_2D size,
                     float sAngle, float wAngle, float ox, float oy, bool fan);

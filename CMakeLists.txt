@@ -40,3 +40,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 # Install DLL and script
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION /)
 install(FILES script/${PROJECT_NAME}.anm DESTINATION /)
+install(FILES script/RadialBlind_s.anm DESTINATION /)

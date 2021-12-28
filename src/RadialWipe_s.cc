@@ -1,4 +1,5 @@
 #include "RadialWipe_s.h"
+#include <cstring>
 #include "CustomType.h"
 #include "UtilFunc.h"
 
@@ -27,6 +28,59 @@ int RadialWipe(lua_State *L) {
     lua_getfield(L, -1, "putpixeldata");
     lua_pushlightuserdata(L, pixels);
     lua_call(L, 1, 0);
+
+    return 0;
+}
+
+int RadialBlind(lua_State *L) {
+    double progress = clamp(lua_tonumber(L, 1) / 100.0, -1.0, 1.0);
+    double sOffset = lua_tonumber(L, 2);
+    double division = std::max(lua_tonumber(L, 3), 1.0);
+    double ox = lua_tonumber(L, 4);
+    double oy = lua_tonumber(L, 5);
+    bool fan = lua_toboolean(L, 6);
+    bool clockwise = lua_toboolean(L, 7);
+
+    if (progress == 0.0)
+        return 0;
+
+    Pixel_RGBA *pixels;
+    Size_2D size;
+    getpixeldata(L, &pixels, &size);
+
+    if (std::abs(progress) == 1.0) {
+        std::memset(pixels, 0, sizeof(Pixel_RGBA) * size.w * size.h);
+    } else {
+        // Apply effects other than the last one
+        for (double step = 0; step < division; step += 1.0) {
+            double wMag = (division - step >= 1.0) ? 1.0 :
+                std::fmod(division, static_cast<int>(division));
+
+            // Additional angle
+            double aAngle = 0;
+            if (progress < 0)
+                aAngle = 360.0 / division * wMag;
+            if (fan)
+                aAngle = 360 / division / 2.0 * wMag;
+
+            double sAngle = 360.0 / division * step + aAngle;
+            double wAngle = 360.0 / division * progress;
+
+            if (!clockwise) {
+                sAngle *= -1.0;
+                wAngle *= -1.0;
+            }
+
+            sAngle += sOffset;
+
+            RadialWipeCore(pixels, size, sAngle, wAngle * wMag, ox, oy, fan);
+        }
+    }
+
+    lua_getfield(L, -1, "putpixeldata");
+    lua_pushlightuserdata(L, pixels);
+    lua_call(L, 1, 0);
+
     return 0;
 }
 
@@ -103,6 +157,7 @@ void RadialWipeCore(Pixel_RGBA *pixels, Size_2D size,
 // 関数の登録
 static luaL_Reg RadialWipe_s[] = {
     { "RadialWipe", RadialWipe },
+    { "RadialBlind", RadialBlind },
     { NULL, NULL }
 };
 
