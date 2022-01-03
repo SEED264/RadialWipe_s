@@ -2,11 +2,16 @@
 [![MIT License](https://img.shields.io/packagist/l/doctrine/orm.svg)](LICENSE)
 ## ビルド
 
-事前にシステムかユーザーの環境変数に`LUA_LIB_PATH`を作り、Luaのライブラリとヘッダファイルのパスを登録しておくと、後々楽です。  
-そうでない場合は、プロジェクトのプロパティの`C/C++ -> General -> Additional Include Directories`の`$(LUA_LIB_PATH)`をLuaのヘッダのインクルードパスに、`Linker -> General -> Additional Library Directories`の`$(LUA_LIB_PATH)`をLuaのライブラリのパスにそれぞれ変更してください。  
-
-その後、`General -> Output Directory`をDLLを出力したい場所に変更してください。  
-自分のスクリプトのフォルダなどにしておくと、ビルドするたびにDLLをコピーしなくてもよくなるので少し楽になります。
+`build`ディレクトリを作成してターミナルで入り、cmake_batch.sh内の`lua_include_dir`、`lua_library_dir`と`cmake_install_path`にそれぞれのパスを追加し、
+```sh
+../cmake_batch.sh msvc
+```
+でプロジェクトが生成されます。そのまま
+```sh
+../msvc_build.sh install
+```
+で`cmake_install_path`に指定したディレクトリにDLLとanmファイルが配置されます。  
+`install`の代わりに`build`や`rebuild`も指定できます。
 
 
 ## スクリプト内での呼び出し
@@ -40,3 +45,26 @@ RadialWipeのメインの関数です。これを呼び出すとRadialWipeエフ
 	ワイプの中心位置からのオフセット(y)
 * `fan : bool`  
 	左右両方にワイプするオプション
+
+
+```lua
+RadialBlind(progress, sOffset, division, xOffset=0, yOffset=0, fan=false, clockWise=true)
+```
+所謂扇ブラインドのエフェクトをかける関数です。これを呼び出すとRadialBlindエフェクトがかかった状態になります
+#### 引数
+必須
+* `progress : float`  
+	ブラインドの割合(-100~100%)
+* `sOffset : float`  
+	ブラインドのオフセットの角度
+  
+オプション
+* `xOffset : float`  
+	ブラインドの中心位置からのオフセット(x)
+* `yOffset : float`  
+	ブラインドの中心位置からのオフセット(y)
+* `fan : bool`  
+	左右両方にブラインドを広げるオプション
+* `clockWise : bool`  
+	時計回りにブラインドを展開するオプション  
+	falseにすると反時計回りになる
