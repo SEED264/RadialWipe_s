@@ -2,7 +2,7 @@
 --track1:開始角,-3600.0,3600.0,60.0,0.1
 --track2:分割数,1.0,100.0,6.0,0.1
 --check0:Fan Mode,0
---dialog:追加座標,pos={0,0}; 時計回り/chk,cw=1
+--dialog:追加座標,pos={0,0}; 時計回り/chk,local cw=1
 require("RadialWipe_s")
 obj.setanchor("pos",1)
 

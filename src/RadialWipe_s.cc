@@ -36,10 +36,12 @@ int RadialBlind(lua_State *L) {
     double progress = clamp(lua_tonumber(L, 1) / 100.0, -1.0, 1.0);
     double sOffset = lua_tonumber(L, 2);
     double division = std::max(lua_tonumber(L, 3), 1.0);
-    double ox = lua_tonumber(L, 4);
-    double oy = lua_tonumber(L, 5);
-    bool fan = lua_toboolean(L, 6);
-    bool clockwise = lua_toboolean(L, 7);
+    // オプション引数
+    int argNum = lua_gettop(L);
+    double ox = (argNum >= 4) ? lua_tonumber(L, 4) : 0;
+    double oy = (argNum >= 5) ? lua_tonumber(L, 5) : 0;
+    bool fan = (argNum >= 6) ? lua_toboolean(L, 6) : false;
+    bool clockwise = (argNum >= 7) ? lua_toboolean(L, 7) : true;
 
     if (progress == 0.0)
         return 0;
